@@ -8,8 +8,11 @@ import com.alibaba.jvm.sandbox.api.filter.NameRegexFilter;
 import com.alibaba.jvm.sandbox.api.http.Http;
 import com.alibaba.jvm.sandbox.api.listener.EventListener;
 import com.alibaba.jvm.sandbox.api.resource.ModuleEventWatcher;
+import com.google.gson.Gson;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Information(id = "broken-clock-tinker")
 public class BrokenClockTinkerModule implements Module {
@@ -38,8 +41,26 @@ public class BrokenClockTinkerModule implements Module {
         );
     }
 
+    private static Gson GSON = new Gson();
+
     @Http("/repairDelay")
-    public void repairDelay() {
+    public void repairDelay(final HttpServletRequest req,
+                            final HttpServletResponse resp) {
+
+        final String classNamePattern = req.getParameter("class");
+        if (classNamePattern != null && classNamePattern.length() != 0) {
+            System.out.println(GSON.toJson(classNamePattern));
+        }
+
+        final String methodNamePattern = req.getParameter("method");
+        if (methodNamePattern != null && methodNamePattern.length() != 0) {
+            System.out.println(GSON.toJson(methodNamePattern));
+        }
+
+        final String watchExpress = req.getParameter("watch");
+        if (watchExpress != null && watchExpress.length() != 0) {
+            System.out.println(GSON.toJson(watchExpress));
+        }
 
         moduleEventWatcher.watch(
 

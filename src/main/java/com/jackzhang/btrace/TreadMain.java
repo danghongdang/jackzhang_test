@@ -9,6 +9,7 @@ public class TreadMain {
             newRun(i + "");
             Thread.sleep(5000);
         }
+
     }
 
     private static String newRun(String name) {
